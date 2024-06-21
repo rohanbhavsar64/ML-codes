@@ -105,9 +105,8 @@ else:
         a2=b[1]
         a3=b[2]
         a4=b[3]
-        
     else:
-        a=MMM.quaterly_financials.iloc[44:,:] 
+        a=MMM.quarterly_financials.iloc[44:,:] 
         b=a.columns
         a1=b[0]
         a2=b[1]
