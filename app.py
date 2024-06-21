@@ -82,7 +82,10 @@ else:
     st.table(df1)
     st.table(df2)
     s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
-    m=st.selectbox('Fanancial',s)
+    col1,col2=st.columns(2)
+    with col1:
+        m=st.selectbox('Fanancial',s)
+    
     h=0
     if(m=='Gross Profit'):
         h=42
@@ -93,7 +96,8 @@ else:
     else:
         h=45
     f=['Yearly','quarterly']
-    n=st.selectbox('Period',f)
+    with col2:
+        n=st.selectbox('Period',f)
     a1=0
     a2=0
     a3=0
