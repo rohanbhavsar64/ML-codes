@@ -86,11 +86,11 @@ else:
     a2=b[1]
     a3=b[2]
     a4=b[3]
-    b=MMM.quarterly_financials.iloc[44,:]
-    b1=b[0]
-    b2=b[1]
-    b3=b[2]
-    b4=b[3]
+    c=MMM.quarterly_financials.iloc[44,:]
+    b1=c[0]
+    b2=c[1]
+    b3=c[2]
+    b4=c[3]
     data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
     st.write(px.bar(df,x='Year',y='Total Revanue'))
