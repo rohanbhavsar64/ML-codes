@@ -99,7 +99,7 @@ else:
     a3=0
     a4=0
     if(n=='Yearly'):
-        a=MMM.yearly_financials.iloc[44:,:]
+        a=MMM.financials.iloc[44:,:]
         b=a.columns
         a1=b[0]
         a2=b[1]
@@ -124,7 +124,7 @@ else:
         b3=c[2]
         b4=c[3]
     else:
-        c=MMM.quaterly_financials.iloc[h,:]
+        c=MMM.financials.iloc[h,:]
         b1=c[0]
         b2=c[1]
         b3=c[2]
