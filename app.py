@@ -82,13 +82,7 @@ else:
     st.table(df1)
     st.table(df2)
     s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
-    col1,col2=st.columns(2)
-    with col1:
-        m=st.selectbox('Fanancial',s)
-    f=['Yearly','quarterly']
-    with col2:
-        n=st.selectbox('Period',f)
-    
+    m=st.selectbox('Fanancial',s)
     h=0
     if(m=='Gross Profit'):
         h=42
@@ -121,6 +115,8 @@ else:
     b2=0
     b3=0
     b4=0
+    f=['Yearly','quarterly']
+    n=st.selectbox('Period',f)
     if(n=='Yearly'):
         c=MMM.financials.iloc[h,:]
         b1=c[0]
