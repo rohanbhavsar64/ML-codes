@@ -85,6 +85,9 @@ else:
     col1,col2=st.columns(2)
     with col1:
         m=st.selectbox('Fanancial',s)
+    f=['Yearly','quarterly']
+    with col2:
+        n=st.selectbox('Period',f)
     
     h=0
     if(m=='Gross Profit'):
@@ -95,9 +98,6 @@ else:
         h=44
     else:
         h=45
-    f=['Yearly','quarterly']
-    with col2:
-        n=st.selectbox('Period',f)
     a1=0
     a2=0
     a3=0
