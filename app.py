@@ -92,5 +92,5 @@ else:
     b4=b[3]
     data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
-    st.write(px.bar(df,x='Year','Total Revanue'))
+    st.write(px.bar(df,x='Year',y='Total Revanue'))
     
