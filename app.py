@@ -79,7 +79,7 @@ else:
     MMM=yf.Ticker(ticker)
     df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
     df2=MMM.quarterly_financials.iloc[44:,:]
-    st.table(df1,title='Balance Sheet')
-    st.table(df2,title='Financial Statement')
+    st.table(df1)
+    st.table(df2)
     
     
