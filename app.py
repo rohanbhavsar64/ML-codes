@@ -118,13 +118,13 @@ else:
     b3=0
     b4=0
     if(n=='Yearly'):
-        c=MMM.yearly_financials.iloc[h,:]
+        c=MMM.financials.iloc[h,:]
         b1=c[0]
         b2=c[1]
         b3=c[2]
         b4=c[3]
     else:
-        c=MMM.financials.iloc[h,:]
+        c=MMM.quaterly_financials.iloc[h,:]
         b1=c[0]
         b2=c[1]
         b3=c[2]
