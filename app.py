@@ -96,6 +96,8 @@ else:
     a2=0
     a3=0
     a4=0
+    f=['Yearly','quarterly']
+    n=st.selectbox('Period',f)
     if(n=='Yearly'):
         a=MMM.financials.iloc[44:,:]
         b=a.columns
@@ -115,8 +117,6 @@ else:
     b2=0
     b3=0
     b4=0
-    f=['Yearly','quarterly']
-    n=st.selectbox('Period',f)
     if(n=='Yearly'):
         c=MMM.financials.iloc[h,:]
         b1=c[0]
