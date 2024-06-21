@@ -92,14 +92,23 @@ else:
         h=44
     else:
         h=45
-    a=MMM.quarterly_financials.iloc[44:,:]
+    f=['Yearly','quarterly']
+    n=st.selectbox('Period',f)
+    a=pd.DataFrame()
+    c=pd.Dataframe()
+    if(n=='Yearly'):
+        a=MMM.yearly_financials.iloc[44:,:]
+    else:
+        a=MMM.quaterly_financials.iloc[44:,:] 
     b=a.columns
     a1=b[0]
     a2=b[1]
     a3=b[2]
     a4=b[3]
-    c=MMM.quarterly_financials.iloc[h,:]
-    b1=c[0]
+    if(n=='Yearly'):
+        a=MMM.yearly_financials.iloc[h,:]
+    else:
+        a=MMM.quaterly_financials.iloc[h,:] 
     b2=c[1]
     b3=c[2]
     b4=c[3]
