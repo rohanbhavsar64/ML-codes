@@ -123,7 +123,7 @@ else:
         b3=c[2]
         b4=c[3]
     else:
-        c=MMM.quaterly_financials.iloc[h,:]
+        c=MMM.quarterly_financials.iloc[h,:]
         b1=c[0]
         b2=c[1]
         b3=c[2]
