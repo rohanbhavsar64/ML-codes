@@ -95,7 +95,7 @@ else:
     f=['Yearly','quarterly']
     n=st.selectbox('Period',f)
     a=pd.DataFrame()
-    c=pd.Dataframe()
+    c=pd.series()
     if(n=='Yearly'):
         a=MMM.yearly_financials.iloc[44:,:]
     else:
