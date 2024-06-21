@@ -81,13 +81,24 @@ else:
     df2=MMM.quarterly_financials.iloc[44:,:]
     st.table(df1)
     st.table(df2)
+    s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
+    m=st.selectbox('Fanancial',s)
+    h=0
+    if(m=='Gross Profit'):
+        h=42
+    elif(m=='Cost Of Revenue'):
+        h=43
+    elif(m=='Total Revanue'):
+        h=44
+    else:
+        h=45
     a=MMM.quarterly_financials.iloc[44:,:]
     b=a.columns
     a1=b[0]
     a2=b[1]
     a3=b[2]
     a4=b[3]
-    c=MMM.quarterly_financials.iloc[44,:]
+    c=MMM.quarterly_financials.iloc[h,:]
     b1=c[0]
     b2=c[1]
     b3=c[2]
