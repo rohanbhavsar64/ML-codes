@@ -76,32 +76,10 @@ elif h=='Profile':
         st.write('Profile Not Exist')
 else:
     st.subheader('Statistics')
-    url3 = f'https://groww.in/us-stocks/{ticker}'
-    r2 = requests.get(url3, headers=headers)
-    w2 = BeautifulSoup(r2.text, 'html')
-    a1 = w2.find_all(class_='ustf141Head bodyLarge left-align')[0].text
-    a2 = w2.find_all(class_='ustf141Head bodyLarge left-align')[1].text
-    a3 = w2.find_all(class_='ustf141Head bodyLarge left-align')[2].text
-    a4 = w2.find_all(class_='ustf141Head bodyLarge left-align')[3].text
-    a5 = w2.find_all(class_='ustf141Head bodyLarge left-align')[4].text
-    a6 = w2.find_all(class_='ustf141Head bodyLarge left-align')[5].text
-    a7 = w2.find_all(class_='ustf141Head bodyLarge left-align')[6].text
-
-    b1 = w2.find_all(class_='ustf141Value bodyLargeHeavy right-align')[0].text
-    b2 = w2.find_all(class_='ustf141Value bodyLargeHeavy right-align')[1].text
-    b3 = w2.find_all(class_='ustf141Value bodyLargeHeavy right-align')[2].text
-    b4 = w2.find_all(class_='ustf141Value bodyLargeHeavy right-align')[3].text
-    b5 = w2.find_all(class_='ustf141Value bodyLargeHeavy right-align')[4].text
-    b6 = w2.find_all(class_='ustf141Value bodyLargeHeavy right-align')[5].text
-    b7 = w2.find_all(class_='ustf141Value bodyLargeHeavy right-align')[6].text
-    data = [[a1, b1], [a2, b2], [a3,b3], [a4, b4],[a5,b5],[a6,b6],[a7,b7]]
-    df17 = pd.DataFrame(data, columns=['history', 'Est.'])
-    st.table(df17)
-    url4 = f'https://finance.yahoo.com/quote/{ticker}/financials'
-    r3 = requests.get(url3, headers=headers)
-    w3 = BeautifulSoup(r3.text, 'html')
-    st.write(w3.find(class_='column svelte-1xjz32c alt'))
-
-#<div class="D(ib) W(1/2) Bxz(bb) Pend(12px) Va(t) ie-7_D(i) smartphone_D(b) smartphone_W(100%) smartphone_Pend(0px) smartphone_BdY smartphone_Bdc($seperatorColor)" data-test="left-summary-table"><table class="W(100%)"><tbody><tr class="Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px) "><td class="C($primaryColor) W(51%)"><span>Previous Close</span></td><td class="Ta(end) Fw(600) Lh(14px)" data-test="PREV_CLOSE-value">107.87</td></tr><tr class="Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px) "><td class="C($primaryColor) W(51%)"><span>Open</span></td><td class="Ta(end) Fw(600) Lh(14px)" data-test="OPEN-value">107.60</td></tr><tr class="Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px) "><td class="C($primaryColor) W(51%)"><span>Bid</span></td><td class="Ta(end) Fw(600) Lh(14px)" data-test="BID-value">0.00 x 900</td></tr><tr class="Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px) "><td class="C($primaryColor) W(51%)"><span>Ask</span></td><td class="Ta(end) Fw(600) Lh(14px)" data-test="ASK-value">106.08 x 800</td></tr><tr class="Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px) "><td class="C($primaryColor) W(51%)"><span>Day's Range</span></td><td class="Ta(end) Fw(600) Lh(14px)" data-test="DAYS_RANGE-value">106.75 - 108.12</td></tr><tr class="Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px) "><td class="C($primaryColor) W(51%)"><span>52 Week Range</span></td><td class="Ta(end) Fw(600) Lh(14px)" data-test="FIFTY_TWO_WK_RANGE-value">85.35 - 113.14</td></tr><tr class="Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px) "><td class="C($primaryColor) W(51%)"><span>Volume</span></td><td class="Ta(end) Fw(600) Lh(14px)" data-test="TD_VOLUME-value"><fin-streamer data-symbol="MMM" data-field="regularMarketVolume" data-trend="none" data-pricehint="2" data-dfield="longFmt" value="4,449,245" active="">4,449,245</fin-streamer></td></tr><tr class="Bxz(bb) Bdbw(1px) Bdbs(s) Bdc($seperatorColor) H(36px) Bdbw(0)! "><td class="C($primaryColor) W(51%)"><span>Avg. Volume</span></td><td class="Ta(end) Fw(600) Lh(14px)" data-test="AVERAGE_VOLUME_3MONTH-value">4,952,249</td></tr></tbody></table></div>
-##72C73C
-#l-align: inherit;">-0.55</font></font></span></fin-streamer> <fin-streamer class="Fw(500) Pstart(8px) Fz(24px)" data-symbol="INFY" data-field="regularMarketChangePercent" data-trend="
+    MMM=yf.Ticker(ticker)
+    df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
+    df2=MMM.quarterly_financials.iloc[44:,:]
+    st.table(df1,title='Balance Sheet')
+    st.table(df2,title='Financial Statement')
+    
+    
