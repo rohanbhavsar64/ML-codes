@@ -81,6 +81,7 @@ else:
     df2=MMM.quarterly_financials.iloc[44:,:]
     st.table(df1)
     st.table(df2)
+    b=df.columns
     a1=b[0]
     a2=b[1]
     a3=b[2]
