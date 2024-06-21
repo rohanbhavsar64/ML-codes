@@ -95,7 +95,6 @@ else:
     f=['Yearly','quarterly']
     n=st.selectbox('Period',f)
     a=pd.DataFrame()
-    c=pd.series()
     if(n=='Yearly'):
         a=MMM.yearly_financials.iloc[44:,:]
     else:
@@ -105,13 +104,22 @@ else:
     a2=b[1]
     a3=b[2]
     a4=b[3]
+    b1=0
+    b2=0
+    b3=0
+    b4=0
     if(n=='Yearly'):
-        a=MMM.yearly_financials.iloc[h,:]
+        c=MMM.yearly_financials.iloc[h,:]
+        b1=c[0]
+        b2=c[1]
+        b3=c[2]
+        b4=c[3]
     else:
-        a=MMM.quaterly_financials.iloc[h,:] 
-    b2=c[1]
-    b3=c[2]
-    b4=c[3]
+        c=MMM.quaterly_financials.iloc[h,:]
+        b1=c[0]
+        b2=c[1]
+        b3=c[2]
+        b4=c[3]
     data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
     st.write(px.bar(df,x='Year',y='Total Revanue'))
