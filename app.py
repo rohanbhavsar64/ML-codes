@@ -1,5 +1,3 @@
-#t cv2
-
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -24,7 +22,7 @@ c=str('$'+web.find(class_='uht141Pri contentPrimary displayBase').text)
 st.subheader('Current Price : '+str(c))
 import yfinance as yf
 # Get the data for the stock AAPL
-j=['Analysis','Profile','Financial','Historical Data','Recommendations']
+j=['Analysis','Profile','Financial','Historical Data','news','Recommendations']
 h=st.sidebar.radio('Field',j)
 if h=='Analysis':
     st.subheader('Analysis')
@@ -142,7 +140,9 @@ elif h=='Historical Data':
     i = st.radio('Period', l,horizontal=True)
     df = yf.download(ticker, period=i)
     st.write(df)
-    
+elif h=='news':
+    MMM=yf.Ticker(ticker)
+    st.write(MMM.news)
 else:
     st.subheader('Recommendations')
     MMM=yf.Ticker(ticker)
@@ -172,5 +172,6 @@ else:
     data5=[[x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
     df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
     st.write(px.bar(df3,x='Suggestions',y='Vote',color='Suggestions',color_discrete_sequence=['green','blue','yellow','orange','red']))
+    
     
     
