@@ -143,7 +143,7 @@ else:
     df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
     df2=MMM.quarterly_financials.iloc[44:,:]
     l=MMM.recommendations.iloc[:,0]
-    t=st.radio('Period',l,horizontal=True)
+    t=st.radio('Recommendations',l,horizontal=True)
     k=0
     if(t=='0m'):
         k=0
