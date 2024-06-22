@@ -25,7 +25,7 @@ st.subheader('Current Price : '+str(c))
 import yfinance as yf
 # Get the data for the stock AAPL
 j=['Analysis','Profile','Financial','Historical Data','Recommendations']
-h=st.sidebar.radio('Field',j,horizontal=True)
+h=st.sidebar.radio('Field',j)
 if h=='Analysis':
     st.subheader('Analysis')
     col1,col2=st.columns(2)
