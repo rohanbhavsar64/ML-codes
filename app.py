@@ -78,7 +78,7 @@ elif h=='Financial':
     st.subheader('Financial')
     MMM=yf.Ticker(ticker)
     w=['Balance Sheet','Income Statements','Financial Statements']
-    q=st.radio(w,horizontal=True)
+    q=st.radio('Select',w,horizontal=True)
     if q=='Balance Sheet':
         df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
         st.table(df1)
