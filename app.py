@@ -131,7 +131,7 @@ else:
     data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
     st.write(px.bar(df,x='Year',y='Total Revanue'))
-    df3=mmm.recommendations
+    df3=MMM.recommendations
     st.table(df3)
     
     
