@@ -132,7 +132,7 @@ else:
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
     st.write(px.bar(df,x='Year',y='Total Revanue'))
     l=MMM.recommendations.iloc[:,0]
-    t=st.radio('Period',l)
+    t=st.radio('Period',l,horizontal='True')
     k=0
     if(t=='0m'):
         k=0
@@ -142,20 +142,18 @@ else:
         k=2
     else:
         k=3
-    x1=MMM.recommendations.columns[0]
     x2=MMM.recommendations.columns[1]
     x3=MMM.recommendations.columns[2]
     x4=MMM.recommendations.columns[3]
     x5=MMM.recommendations.columns[4]
     x6=MMM.recommendations.columns[5]
-    y1=MMM.recommendations.iloc[k,:][0]
     y2=MMM.recommendations.iloc[k,:][1]
     y3=MMM.recommendations.iloc[k,:][2]
     y4=MMM.recommendations.iloc[k,:][3]
     y5=MMM.recommendations.iloc[k,:][4]
     y6=MMM.recommendations.iloc[k,:][5]
-    data5=[[x1,y1],[x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
+    data5=[[x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
     df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
-    st.write(px.bar(df3,x='Suggestions',y='Vote'))
+    st.write(px.bar(df3,x='Suggestions',y='Vote',color_discrete_sequence=['green','blue','yellow','orange','red']))
     
     
