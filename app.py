@@ -154,6 +154,6 @@ else:
     y6=MMM.recommendations.iloc[k,:][5]
     data5=[[x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
     df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
-    st.write(px.bar(df3,x='Suggestions',y='Vote',color_discrete_sequence=['green','blue','yellow','orange','red']))
+    st.write(px.bar(df3,x='Suggestions',y='Vote',color='Suggestions',color_discrete_sequence=['green','blue','yellow','orange','red']))
     
     
