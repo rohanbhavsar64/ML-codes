@@ -77,59 +77,65 @@ elif h=='Profile':
 elif h=='Financial':
     st.subheader('Financial')
     MMM=yf.Ticker(ticker)
-    df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
-    df2=MMM.quarterly_financials.iloc[44:,:]
-    st.table(df1)
-    s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
-    m=st.selectbox('Fanancial',s)
-    h=0
-    if(m=='Gross Profit'):
-        h=42
-    elif(m=='Cost Of Revenue'):
-        h=43
-    elif(m=='Total Revanue'):
-        h=44
+    w=['Balance Sheet','Income Statements','Financial Statements']
+    q=st.radio(w,horizontal=True)
+    if q=='Balance Sheet':
+        df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
+        st.table(df1)
+    elif q=='Income Statements':
+        df7=MMM.income_stmt
+        st.table(df7)
     else:
-        h=45
-    a1=0
-    a2=0
-    a3=0
-    a4=0
-    f=['Yearly','quarterly']
-    n=st.radio('Period',f,horizontal=True)
-    if(n=='Yearly'):
-        a=MMM.financials.iloc[44:,:]
-        b=a.columns
-        a1=b[0]
-        a2=b[1]
-        a3=b[2]
-        a4=b[3]
-    else:
-        a=MMM.quarterly_financials.iloc[44:,:] 
-        b=a.columns
-        a1=b[0]
-        a2=b[1]
-        a3=b[2]
-        a4=b[3]
-    b1=0
-    b2=0
-    b3=0
-    b4=0
-    if(n=='Yearly'):
-        c=MMM.financials.iloc[h,:]
-        b1=c[0]
-        b2=c[1]
-        b3=c[2]
-        b4=c[3]
-    else:
-        c=MMM.quarterly_financials.iloc[h,:]
-        b1=c[0]
-        b2=c[1]
-        b3=c[2]
-        b4=c[3]
-    data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
-    df=pd.DataFrame(data,columns=['Year','Total Revanue'])
-    st.write(px.bar(df,x='Year',y='Total Revanue'))
+        df2=MMM.quarterly_financials.iloc[44:,:]
+        s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
+        m=st.selectbox('Fanancial',s)h=0
+        if(m=='Gross Profit'):
+            h=42
+        elif(m=='Cost Of Revenue'):
+            h=43
+        elif(m=='Total Revanue'):
+            h=44
+        else:
+            h=45
+        a1=0
+        a2=0
+        a3=0
+        a4=0
+        f=['Yearly','quarterly']
+        n=st.radio('Period',f,horizontal=True)
+        if(n=='Yearly'):
+            a=MMM.financials.iloc[44:,:]
+            b=a.columns
+            a1=b[0]
+            a2=b[1]
+            a3=b[2]
+            a4=b[3]
+        else:
+            a=MMM.quarterly_financials.iloc[44:,:] 
+            b=a.columns
+            a1=b[0]
+            a2=b[1]
+            a3=b[2]
+            a4=b[3]
+        b1=0
+        b2=0
+        b3=0
+        b4=0
+        if(n=='Yearly'):
+            c=MMM.financials.iloc[h,:]
+            b1=c[0]
+            b2=c[1]
+            b3=c[2]
+            b4=c[3]
+        else:
+            c=MMM.quarterly_financials.iloc[h,:]
+            b1=c[0]
+            b2=c[1]
+            b3=c[2]
+            b4=c[3]
+        data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
+        df=pd.DataFrame(data,columns=['Year','Total Revanue'])
+        st.write(px.bar(df,x='Year',y='Total Revanue'))
 else:
     st.subheader('Staticstics')
     MMM=yf.Ticker(ticker)
