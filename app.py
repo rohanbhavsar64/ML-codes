@@ -132,7 +132,7 @@ else:
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
     st.write(px.bar(df,x='Year',y='Total Revanue'))
     x1=MMM.recommendations.columns[0]
-    x3=MMM.recommendations.columns[1]
+    x2=MMM.recommendations.columns[1]
     x3=MMM.recommendations.columns[2]
     x4=MMM.recommendations.columns[3]
     x5=MMM.recommendations.columns[4]
