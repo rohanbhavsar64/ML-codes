@@ -24,7 +24,7 @@ c=str('$'+web.find(class_='uht141Pri contentPrimary displayBase').text)
 st.subheader('Current Price : '+str(c))
 import yfinance as yf
 # Get the data for the stock AAPL
-j=['Analysis','Profile','Statistics','Financial','Historical Data']
+j=['Analysis','Profile','Financial','Historical Data','Recommendations']
 h=st.radio('Field',j,horizontal=True)
 if h=='Analysis':
     st.subheader('Analysis')
@@ -144,12 +144,12 @@ elif h=='Historical Data':
     st.write(df)
     
 else:
-    st.subheader('Staticstics')
+    st.subheader('Recommendations')
     MMM=yf.Ticker(ticker)
     df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
     df2=MMM.quarterly_financials.iloc[44:,:]
     l=MMM.recommendations.iloc[:,0]
-    t=st.radio('Recommendations',l,horizontal=True)
+    t=st.radio('Period',l,horizontal=True)
     k=0
     if(t=='0m'):
         k=0
