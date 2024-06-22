@@ -132,7 +132,7 @@ else:
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
     st.write(px.bar(df,x='Year',y='Total Revanue'))
     l=MMM.recommendations.iloc[:,0]
-    t=st.radio('Period',l,horizontal='True')
+    t=st.radio('Period',l,horizontal=True)
     k=0
     if(t=='0m'):
         k=0
