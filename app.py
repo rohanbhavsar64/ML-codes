@@ -83,8 +83,8 @@ elif h=='Financial':
         df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
         st.table(df1)
     elif q=='Income Statements':
-        df7=MMM.income_stmt
-        st.table(df7.iloc[:,:15])
+        df7=MMM.income_stmt.iloc[:15,:]
+        st.table(df7)
     else:
         df2=MMM.quarterly_financials.iloc[44:,:]
         s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
