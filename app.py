@@ -143,7 +143,7 @@ else:
     y4=MMM.recommendations.iloc[0,:][3]
     y5=MMM.recommendations.iloc[0,:][4]
     y6=MMM.recommendations.iloc[0,:][5]
-    data5=[[x1,y1][x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
+    data5=[[x1,y1],[x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
     df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
     st.write(px.bar(df3,x='Suggestions',y='Vote'))
     
