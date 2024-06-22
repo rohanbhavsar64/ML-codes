@@ -139,7 +139,7 @@ elif h=='Financial':
         st.write(px.bar(df,x='Year',y=m))
 elif h=='Historical Data':
     l = ['5d','1mo','3mo','1y','5y','max']
-    i = st.selectbox('Period', l)
+    i = st.radio('Period', l,horizontal=True)
     df = yf.download(ticker, period=i)
     st.write(df)
     
