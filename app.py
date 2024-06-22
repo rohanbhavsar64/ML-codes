@@ -136,7 +136,7 @@ elif h=='Financial':
             b4=c[3]
         data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
         df=pd.DataFrame(data,columns=['Year',m])
-        st.write(px.bar(df,x='Year',y=m))
+        st.write(px.bar(df,x='Year',y=m,color_discrete_sequence=['orange']))
 elif h=='Historical Data':
     l = ['5d','1mo','3mo','1y','5y','max']
     i = st.radio('Period', l,horizontal=True)
