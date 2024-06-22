@@ -97,7 +97,7 @@ else:
     a3=0
     a4=0
     f=['Yearly','quarterly']
-    n=st.selectbox('Period',f)
+    n=st.radio('Period',f)
     if(n=='Yearly'):
         a=MMM.financials.iloc[44:,:]
         b=a.columns
@@ -131,4 +131,5 @@ else:
     data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
     st.write(px.bar(df,x='Year',y='Total Revanue'))
+    
     
