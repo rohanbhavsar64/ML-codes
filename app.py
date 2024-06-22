@@ -131,10 +131,20 @@ else:
     data=[[a1,b1],[a2,b2],[a3,b3],[a4,b4]]
     df=pd.DataFrame(data,columns=['Year','Total Revanue'])
     st.write(px.bar(df,x='Year',y='Total Revanue'))
-    df3=MMM.recommendations
-    st.table(df3)
-    x=MMM.recommendations.columns
-    y=MMM.recommendations.iloc[0,:]
-    st.write(px.bar(x,y))
+    x1=MMM.recommendations.columns[0]
+    x3=MMM.recommendations.columns[1]
+    x3=MMM.recommendations.columns[2]
+    x4=MMM.recommendations.columns[3]
+    x5=MMM.recommendations.columns[4]
+    x6=MMM.recommendations.columns[5]
+    y1=MMM.recommendations.iloc[0,:][0]
+    y2=MMM.recommendations.iloc[0,:][1]
+    y3=MMM.recommendations.iloc[0,:][3]
+    y4=MMM.recommendations.iloc[0,:][4]
+    y5=MMM.recommendations.iloc[0,:][5]
+    y6=MMM.recommendations.iloc[0,:][6]
+    data5=[[x1,y1][x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
+    df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
+    st.write(px.bar(df3,x='Suggestions',y='Vote'))
     
     
