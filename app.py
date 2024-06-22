@@ -80,7 +80,6 @@ else:
     df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
     df2=MMM.quarterly_financials.iloc[44:,:]
     st.table(df1)
-    st.table(df2)
     s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
     m=st.selectbox('Fanancial',s)
     h=0
