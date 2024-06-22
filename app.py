@@ -132,6 +132,9 @@ elif h=='Financial':
     st.write(px.bar(df,x='Year',y='Total Revanue'))
 else:
     st.subheader('Staticstics')
+    MMM=yf.Ticker(ticker)
+    df1=MMM.quarterly_balance_sheet.iloc[:10,:4]
+    df2=MMM.quarterly_financials.iloc[44:,:]
     l=MMM.recommendations.iloc[:,0]
     t=st.radio('Period',l,horizontal=True)
     k=0
