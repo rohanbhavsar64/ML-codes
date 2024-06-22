@@ -133,5 +133,8 @@ else:
     st.write(px.bar(df,x='Year',y='Total Revanue'))
     df3=MMM.recommendations
     st.table(df3)
+    x=mmm.recommendations.columns
+    y=mmm.recommendations.iloc[0,:]
+    st.write(px.bar(x,y))
     
     
