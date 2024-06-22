@@ -97,7 +97,7 @@ else:
     a3=0
     a4=0
     f=['Yearly','quarterly']
-    n=st.radio(f)
+    n=st.radio('Period',f,horizontal=True)
     if(n=='Yearly'):
         a=MMM.financials.iloc[44:,:]
         b=a.columns
