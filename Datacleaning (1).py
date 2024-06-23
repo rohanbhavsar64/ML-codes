@@ -361,14 +361,12 @@ def match_progression(x_df,match_id,pipe):
     return temp_df,target
 
 
-# In[66]:
+import streamlit as st
+a=st.number_input()
 
 
-temp_df,target = match_progression(delivery_df,334,pipe)
+temp_df,target = match_progression(delivery_df,a,pipe)
 temp_df
-
-
-# In[67]:
 
 
 import matplotlib.pyplot as plt
@@ -381,71 +379,11 @@ fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='line
 fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over']))
 fig.update_layout(title='Target-' + str(target))
 
-fig.show()
+st.write(fig.show())
 
 
 # In[49]:
 
 
 match[match['id']==334]
-
-
-# In[50]:
-
-
-url='https://www.espncricinfo.com/series/icc-men-s-t20-world-cup-2024-1411166/bangladesh-vs-india-47th-match-super-eights-group-1-1415747/match-overs-comparison'
-
-
-# In[51]:
-
-
-import requests
-from bs4 import BeautifulSoup
-
-
-# In[52]:
-
-
-headers={'User-Agent':'Mo BeautifulSoupzilla/5.0 (Windows NT 6.3; Win 64 ; x64) Apple WeKit /537.36(KHTML , like Gecko) Chrome/80.0.3987.162 Safari/537.36'}
-r=requests.get(url,headers=headers)
-web=BeautifulSoup(r.text,'html')
-
-
-# In[53]:
-
-
-int(web.find_all(class_='ds-text-tight-s ds-font-regular ds-ml-1 ds-text-typo-mid2')[5].text.split(' ')[0][1:])
-
-
-# In[54]:
-
-
-int(web.find_all(class_='ds-text-tight-s ds-font-regular ds-ml-1 ds-text-typo-mid2')[3].text.split(',')[1][1])
-
-
-# In[55]:
-
-
-temp_df=pd.DataFrame()
-l=list()
-
-
-# In[56]:
-
-
-for i in range(1,40):
-    if(i%2==1):
-        l.append(int(web.find_all(class_='ds-text-tight-s ds-font-regular ds-ml-1 ds-text-typo-mid2')[i].text.split(',')[1][1]))
-
-
-# In[183]:
-
-
-l
-
-
-# In[ ]:
-
-
-
 
