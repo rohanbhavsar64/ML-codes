@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 match = pd.read_csv('matches.csv')
 delivery = pd.read_csv('deliveries.csv')
-total_score_df = delivery.groupby(['match_id','inning']).sum()['total_runs'].reset_index().int()
+total_score_df = int(delivery.groupby(['match_id','inning']).sum()['total_runs'].reset_index())
 total_score_df = total_score_df[total_score_df['inning'] == 1]
 match_df = match.merge(total_score_df[['match_id','total_runs']],left_on='id',right_on='match_id')
 teams = [
