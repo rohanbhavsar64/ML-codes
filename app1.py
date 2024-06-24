@@ -8,8 +8,7 @@ match = pd.read_csv('matches.csv')
 delivery = pd.read_csv('deliveries.csv')
 
 # Data preprocessing
-delivery['total_runs'] = delivery['total_runs'].astype(int)
-delivery['match_id'] = delivery['match_id'].astype(int)
+delivery_df['total_runs'] = delivery_df['total_runs'].fillna(0)
 
 total_score_df = delivery.groupby(['match_id', 'inning']).sum()['total_runs'].reset_index()
 total_score_df = total_score_df[total_score_df['inning'] == 1]
