@@ -1,4 +1,4 @@
-(import pandas as pd
+import pandas as pd
 df=pd.read_csv('result.csv')
 x=df.drop(columns='result')
 y=df['result']
