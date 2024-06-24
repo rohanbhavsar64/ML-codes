@@ -1,5 +1,6 @@
 import pandas as pd
 df=pd.read_csv('result (1).csv')
+df.dropna()
 x=df.drop(columns='result')
 y=df['result']
 from sklearn.model_selection import train_test_split
