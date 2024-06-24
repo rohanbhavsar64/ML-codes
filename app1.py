@@ -1,32 +1,37 @@
 import pandas as pd
 df=pd.read_csv('result (1).csv')
-df.dropna()
+df.dropna(inplace=True)
 x=df.drop(columns='result')
 y=df['result']
 from sklearn.model_selection import train_test_split
 xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.25,random_state=42)
+
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 ohe=OneHotEncoder()
 trf = ColumnTransformer([
     ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city','batsman','non_striker'])],remainder='passthrough')
+
 from sklearn.linear_model import LogisticRegression
-from sklearn import linear_model
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.pipeline import Pipeline
 pipe=Pipeline(
     steps=[
         ('step1',trf),
         ('step2',LogisticRegression())
     ])
-pipe.fit(xtrain,ytrain)
-def match_progression(x_df,match_id,pipe):
+
+xtrain_trf = trf.fit_transform(xtrain)
+pipe.fit(xtrain_trf, ytrain)
+
+def match_progression(x_df, match_id, pipe, trf):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
     temp_df = match[['batting_team','bowling_team','city','batsman','non_striker','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
-    temp_df = temp_df[temp_df['ball_left'] != 0]
-    result = pipe.predict_proba(temp_df)
+    temp_df = temp_df[temp_df['ball_left']!= 0]
+    temp_df_trf = trf.transform(temp_df[['batting_team','bowling_team','city','batsman','non_striker']])
+    temp_df_trf = pd.DataFrame(temp_df_trf.toarray(), columns=trf.named_steps['trf'].get_feature_names(['batting_team','bowling_team','city','batsman','non_striker']))
+    temp_df_trf = pd.concat([temp_df_trf, temp_df.drop(columns=['batting_team','bowling_team','city','batsman','non_striker'])], axis=1)
+    result = pipe.predict_proba(temp_df_trf)
     temp_df['lose'] = np.round(result.T[0]*100,1)
     temp_df['win'] = np.round(result.T[1]*100,1)
     temp_df['end_of_over'] = range(1,temp_df.shape[0]+1)
@@ -52,8 +57,7 @@ def match_progression(x_df,match_id,pipe):
 import streamlit as st
 a=st.number_input("Insert a number")
 
-
-temp_df,target = match_progression(df,a,pipe)
+temp_df,target = match_progression(df,a,pipe,trf)
 temp_df
 
 
