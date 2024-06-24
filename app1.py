@@ -1,5 +1,6 @@
 import pandas as pd
 df=pd.read_csv('result (2).csv')
+df1=pd.read_csv('IPL.csv')
 df.dropna(inplace=True)
 x=df.drop(columns='result')
 y=df['result']
@@ -60,7 +61,7 @@ def match_progression(x_df, match_id, pipe, trf):
 
 import streamlit as st
 
-temp_df,target = match_progression(df,6,pipe,trf)
+temp_df,target = match_progression(df1,6,pipe,trf)
 temp_df
 
 
