@@ -1,77 +1,67 @@
 import pandas as pd
-df=pd.read_csv('result (2).csv')
-df1=pd.read_csv('IPL.csv')
-df.dropna(inplace=True)
-import streamlit as st
-st.write(df1)
-x=df.drop(columns='result')
-y=df['result']
-from sklearn.model_selection import train_test_split
-xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.25,random_state=42)
-
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
-ohe=OneHotEncoder()
-trf = ColumnTransformer([
-    ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city','batsman','non_striker'])],remainder='passthrough')
-
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
-pipe=Pipeline(
-    steps=[
-        ('step1',trf),
-        ('step2',LogisticRegression())
-    ])
-
-trf_fitted = trf.fit(xtrain)
-pipe.steps[0] = ('step1', trf_fitted)
-
-pipe.fit(xtrain, ytrain)
-st.write(pipe.predict(xtest[0))
-def match_progression(x_df, match_id, pipe, trf):
-    match = x_df[x_df['match_id'] == match_id]
-    match = match[(match['ball'] == 6)]
-    temp_df = match[['batting_team','bowling_team','city','batsman','non_striker','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
-    temp_df = temp_df[temp_df['ball_left']!= 0]
-    temp_df_trf = trf.transform(temp_df[['batting_team','bowling_team','city','batsman','non_striker']])
-    temp_df_trf = pd.DataFrame(temp_df_trf.toarray(), columns=trf.named_steps['trf'].get_feature_names(['batting_team','bowling_team','city','batsman','non_striker']))
-    temp_df_trf = pd.concat([temp_df_trf, temp_df.drop(columns=['batting_team','bowling_team','city','batsman','non_striker'])], axis=1)
-    temp_df_trf_fitted = temp_df_trf.fit(xtrain)
-    pipe.steps[0] = ('step1', temp_df_trf)
-    result = pipe.predict_proba(temp_df_trf)
-    temp_df['lose'] = np.round(result.T[0]*100,1)
-    temp_df['win'] = np.round(result.T[1]*100,1)
-    temp_df['end_of_over'] = range(1,temp_df.shape[0]+1)
-    
-    target = temp_df['total_runs_x'].values[0]
-    runs = list(temp_df['runs_left'].values)
-    new_runs = runs[:]
-    runs.insert(0,target)
-    temp_df['runs_after_over'] = np.array(runs)[:-1] - np.array(new_runs)
-    wickets = list(temp_df['wickets_left'].values)
-    new_wickets = wickets[:]
-    new_wickets.insert(0,10)
-    wickets.append(0)
-    w = np.array(wickets)
-    nw = np.array(new_wickets)
-    temp_df['wickets_in_over'] = (nw - w)[0:temp_df.shape[0]]
-    
-    print("Target-",target)
-    temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
-    return temp_df,target
-
-temp_df,target = match_progression(df1,6,pipe,trf)
-temp_df
-
-
+import numpy as np
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
+from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+# Example: Load data from CSV
+df = pd.read_csv('IPL.csv')
 
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['wickets_in_over'], mode='markers', marker=dict(color='red')))
-fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['win'], mode='lines', line=dict(color='#00a65a', width=4)))
-fig.add_trace(go.Scatter(x=temp_df['end_of_over'], y=temp_df['lose'], mode='lines', line=dict(color='red', width=4)))
-fig.add_trace(go.Bar(x=temp_df['end_of_over'], y=temp_df['runs_after_over']))
-fig.update_layout(title='Target-' + str(target))
+# Assuming relevant columns are: 'match_id', 'over', 'runs_left', 'wickets_left', 'total_runs_x', 'ball_left'
+# Filter relevant columns
+df = df[['match_id','batting_team','bowling_team','city','over', 'runs_left', 'wickets_left', 'total_runs_x', 'ball_left','last_three_overs_runs']]
 
-st.write(fig.show())
+# Drop rows with missing values if any
+df.dropna(inplace=True)
+# Define preprocessing steps using ColumnTransformer
+preprocessor = ColumnTransformer([
+    ('ohe', OneHotEncoder(handle_unknown='ignore'), ['batting_team','bowling_team','city']),  # Example with OneHotEncoder for match_id
+    ('scaler', StandardScaler(), ['match_id','over', 'runs_left', 'wickets_left', 'total_runs_x', 'ball_left','last_three_overs_runs'])
+])
+
+# Define Logistic Regression model
+log_reg = LogisticRegression()
+
+# Create pipeline
+pipeline = Pipeline([
+    ('preprocessor', preprocessor),
+    ('classifier', log_reg)
+])
+# Separate features and target variable
+# Separate features and target variable
+X = df.drop(columns=['result'])  # Drop 'result' column as it's the target variable
+y = df['result']
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+# Predict win probabilities for test dataain)
+pipe.fit(X_train,y_train)
+# Predict probabilities for test data
+win_probabilities = pipeline.predict_proba(X_test)
+
+# Assuming class 1 is 'win', extract probabilities for win for both teams
+win_probabilities_batting = win_probabilities[:, 1]
+win_probabilities_bowling = 1 - win_probabilities_batting  # Assuming binary outcome (win or lose)
+
+# Add win probabilities to X_test for plotting (assuming 'over' is still part of X_test)
+X_test['win_probability_batting'] = win_probabilities_batting
+X_test['win_probability_bowling'] = win_probabilities_bowling
+
+# Plot win probability per over for both teams
+plt.figure(figsize=(10, 6))
+plt.plot(X_test['over'], X_test['win_probability_batting'], marker='o', linestyle='-', color='b', label='Batting Team')
+plt.plot(X_test['over'], X_test['win_probability_bowling'], marker='o', linestyle='-', color='r', label='Bowling Team')
+plt.xlabel('Over')
+plt.ylabel('Win Probability')
+plt.title('Predicted Win Probability Per Over of the Match')
+plt.ylim([0, 1])
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
