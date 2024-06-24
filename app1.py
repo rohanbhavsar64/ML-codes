@@ -20,8 +20,10 @@ pipe=Pipeline(
         ('step2',LogisticRegression())
     ])
 
-xtrain_trf = trf.fit_transform(xtrain)
-pipe.fit(xtrain_trf,ytrain)
+trf_fitted = trf.fit(xtrain)
+pipe.steps[0] = ('step1', trf_fitted)
+
+pipe.fit(xtrain, ytrain)
 
 def match_progression(x_df, match_id, pipe, trf):
     match = x_df[x_df['match_id'] == match_id]
