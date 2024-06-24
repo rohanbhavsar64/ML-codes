@@ -1,5 +1,5 @@
 import pandas as pd
-df=pd.read_csv('result (1).csv')
+df=pd.read_csv('result (2).csv')
 df.dropna(inplace=True)
 x=df.drop(columns='result')
 y=df['result']
