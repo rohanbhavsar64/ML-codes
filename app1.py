@@ -21,10 +21,7 @@ pipe=Pipeline(
     ])
 pipe.fit(xtrain,ytrain)
 pipe.predict_proba(xtest)[1]
-
-n=pipe.predict_proba(pd.DataFrame(columns=['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five','last_five_wicket'],data=np.array(['Royal Challengers Bangalore','Chennai Super Kings','Indore','Dhoni','Sundar',63,42,7,2,11.23,9.00,33,2.0]).reshape(1,13))).astype(float)
-
-def match_progression(x_df,match_id,pipe):
+df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
     temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
