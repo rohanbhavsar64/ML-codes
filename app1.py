@@ -27,7 +27,7 @@ trf_fitted = trf.fit(xtrain)
 pipe.steps[0] = ('step1', trf_fitted)
 
 pipe.fit(xtrain, ytrain)
-
+st.write(pipe.predict(xtest[0))
 def match_progression(x_df, match_id, pipe, trf):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
