@@ -1,7 +1,7 @@
 import pandas as pd
 df=pd.read_csv('result.csv')
-x=final_df.drop(columns='result')
-y=final_df['result']
+x=df.drop(columns='result')
+y=df['result']
 from sklearn.model_selection import train_test_split
 xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,random_state=1)
 from sklearn.compose import ColumnTransformer
