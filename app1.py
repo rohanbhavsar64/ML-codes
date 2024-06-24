@@ -3,7 +3,7 @@ df=pd.read_csv('result (1).csv')
 x=df.drop(columns='result')
 y=df['result']
 from sklearn.model_selection import train_test_split
-xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,random_state=1)
+xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,random_state=42)
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 ohe=OneHotEncoder()
