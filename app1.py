@@ -8,7 +8,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 ohe=OneHotEncoder()
 trf = ColumnTransformer([
-    ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city'])],remainder='passthrough')
+    ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city','batsman','non_striker'])],remainder='passthrough')
 from sklearn.linear_model import LogisticRegression
 from sklearn import linear_model
 from sklearn.neighbors import KNeighborsClassifier
@@ -24,7 +24,7 @@ pipe.predict_proba(xtest)[1]
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
-    temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
+    temp_df = match[['batting_team','bowling_team','city','batsman','non_striker','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
     temp_df = temp_df[temp_df['ball_left'] != 0]
     result = pipe.predict_proba(temp_df)
     temp_df['lose'] = np.round(result.T[0]*100,1)
