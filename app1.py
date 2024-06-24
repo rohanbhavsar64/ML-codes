@@ -59,7 +59,6 @@ def match_progression(x_df, match_id, pipe, trf):
 
 
 import streamlit as st
-a=st.number_input("Insert a number")
 
 temp_df,target = match_progression(df,6,pipe,trf)
 temp_df
