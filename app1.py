@@ -32,7 +32,7 @@ groups = delivery_df.groupby('match_id')
 match_ids = delivery_df['match_id'].unique()
 last_five = []
 for id in match_ids:
-      last_five.extend(groups.get_group(id).rolling(window=18).sum()['total_runs_y'].values.tolist())
+      last_five.extend(groups.get_group(id).rolling(window=18).sum()['total_runs'].values.tolist())
 delivery_df['last_five']=last_five
 delivery_df['city'].value_counts().keys()
 delivery_df.groupby('match_id').cumsum()['total_runs_y']
