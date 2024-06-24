@@ -20,7 +20,6 @@ pipe=Pipeline(
         ('step2',LogisticRegression())
     ])
 pipe.fit(xtrain,ytrain)
-pipe.predict_proba(xtest)[1]
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
