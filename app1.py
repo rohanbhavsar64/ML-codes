@@ -1,5 +1,29 @@
 import pandas as pd
 df=pd.read_csv('result.csv')
+x=final_df.drop(columns='result')
+y=final_df['result']
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest= train_test_split(x,y,test_size=0.2,random_state=1)
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+ohe=OneHotEncoder()
+trf = ColumnTransformer([
+    ('trf',OneHotEncoder(sparse_output=False,handle_unknown = 'ignore'),['batting_team','bowling_team','city'])],remainder='passthrough')
+from sklearn.linear_model import LogisticRegression
+from sklearn import linear_model
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.pipeline import Pipeline
+pipe=Pipeline(
+    steps=[
+        ('step1',trf),
+        ('step2',LogisticRegression())
+    ])
+pipe.fit(xtrain,ytrain)
+pipe.predict_proba(xtest)[1]
+
+n=pipe.predict_proba(pd.DataFrame(columns=['batting_team','bowling_team','city','batsman','non_striker','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five','last_five_wicket'],data=np.array(['Royal Challengers Bangalore','Chennai Super Kings','Indore','Dhoni','Sundar',63,42,7,2,11.23,9.00,33,2.0]).reshape(1,13))).astype(float)
+
 def match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
