@@ -1,4 +1,4 @@
-import pandas as pd
+(import pandas as pd
 df=pd.read_csv('result.csv')
 x=df.drop(columns='result')
 y=df['result']
@@ -21,7 +21,7 @@ pipe=Pipeline(
     ])
 pipe.fit(xtrain,ytrain)
 pipe.predict_proba(xtest)[1]
-df,match_id,pipe):
+match_progression(x_df,match_id,pipe):
     match = x_df[x_df['match_id'] == match_id]
     match = match[(match['ball'] == 6)]
     temp_df = match[['batting_team','bowling_team','city','runs_left','ball_left','wickets_left','total_runs_x','crr','rrr','last_five_wicket', 'last_five']].dropna()
