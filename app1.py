@@ -2,6 +2,8 @@ import pandas as pd
 df=pd.read_csv('result (2).csv')
 df1=pd.read_csv('IPL.csv')
 df.dropna(inplace=True)
+import streamlit as st
+st.write(df1)
 x=df.drop(columns='result')
 y=df['result']
 from sklearn.model_selection import train_test_split
@@ -57,9 +59,6 @@ def match_progression(x_df, match_id, pipe, trf):
     print("Target-",target)
     temp_df = temp_df[['end_of_over','runs_after_over','wickets_in_over','lose','win']]
     return temp_df,target
-
-
-import streamlit as st
 
 temp_df,target = match_progression(df1,6,pipe,trf)
 temp_df
