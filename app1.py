@@ -21,7 +21,7 @@ pipe=Pipeline(
     ])
 
 xtrain_trf = trf.fit_transform(xtrain)
-pipe.fit(xtrain_trf, ytrain)
+pipe.fit(xtrain_trf,ytrain)
 
 def match_progression(x_df, match_id, pipe, trf):
     match = x_df[x_df['match_id'] == match_id]
