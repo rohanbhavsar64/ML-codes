@@ -33,6 +33,8 @@ def match_progression(x_df, match_id, pipe, trf):
     temp_df_trf = trf.transform(temp_df[['batting_team','bowling_team','city','batsman','non_striker']])
     temp_df_trf = pd.DataFrame(temp_df_trf.toarray(), columns=trf.named_steps['trf'].get_feature_names(['batting_team','bowling_team','city','batsman','non_striker']))
     temp_df_trf = pd.concat([temp_df_trf, temp_df.drop(columns=['batting_team','bowling_team','city','batsman','non_striker'])], axis=1)
+    temp_df_trf_fitted = temp_df_trf.fit(xtrain)
+    pipe.steps[0] = ('step1', temp_df_trf)
     result = pipe.predict_proba(temp_df_trf)
     temp_df['lose'] = np.round(result.T[0]*100,1)
     temp_df['win'] = np.round(result.T[1]*100,1)
