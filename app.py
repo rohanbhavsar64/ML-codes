@@ -7,7 +7,7 @@ import plotly.express as px
 import streamlit as st
 st.title("Stock Analysis")
 fd=pd.read_csv('NSE Symbols.csv')
-fd.sort_values(by=['symbol'])
+fd.sort_values(by=['Company Name'])
 f=fd['Symbol'].unique()
 #Mt(15px) Lh(1.6)
 ticker=st.selectbox("Company",f)
