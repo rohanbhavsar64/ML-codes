@@ -33,9 +33,9 @@ if h=='Analysis':
         i = st.selectbox('Period', l)
         df = yf.download(ticker, period=i)
     with col2:
-        q=['Area','Line','Bar']
+        q=['Candlestick','Area','Line','Bar']
         g=st.radio('Chart- Type',q,horizontal=True)
-    if g=='Area':
+    if g=='Candlestick':
         fig = go.Figure(data=[go.Candlestick(x=df.index,
                                      open=df['Open'],
                                      high=df['High'],
@@ -46,6 +46,15 @@ if h=='Analysis':
                   xaxis_title='Date',
                   xaxis_rangeslider_visible=False)
         st.write(fig)
+    elif g=='Line':
+        if df['Close'][-1] < df['Close'][0]:
+            fig = px.aine(df, x=df.index, y='Close', color_discrete_sequence=["#9E4033"],title='Close vs Date')
+            fig.update_yaxes(showgrid=False)
+            st.write(fig)
+        else:
+            fig = px.area(df, x=df.index, y='Close', color_discrete_sequence=["#4A7230"],title='Closing Price  vs Date')
+            fig.update_yaxes(showgrid=False)
+            st.write(fig)
 
     elif g=='Line':
         if df['Close'][-1] < df['Close'][0]:
