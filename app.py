@@ -29,7 +29,7 @@ if h=='Analysis':
     st.subheader('Analysis')
     col1,col2=st.columns(2)
     with col1:
-        l = ['5d','1wk','1mo','3mo','1y','5y','max']
+        l = ['1y','5y','max','3mo','1mo','5d']
         i = st.selectbox('Period', l)
         df = yf.download(ticker, period=i)
     with col2:
