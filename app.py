@@ -45,6 +45,7 @@ if h=='Analysis':
                   yaxis_title='Price',
                   xaxis_title='Date',
                   xaxis_rangeslider_visible=False)
+        st.write(fig)
 
     elif g=='Line':
         if df['Close'][-1] < df['Close'][0]:
