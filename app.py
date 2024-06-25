@@ -7,8 +7,8 @@ import plotly.express as px
 import streamlit as st
 st.title("Stock Analysis")
 fd=pd.read_csv('NSE Symbols.csv')
-fd.sort_values(by=['Company Name'])
-f=fd['Scripe'].unique()
+fd=fd.sort_values(by=['Company Name'])
+f=fd['Scrip'].unique()
 #Mt(15px) Lh(1.6)
 ticker=st.selectbox("Company",f)
 url=f"https://groww.in/us-stocks/{ticker}"
