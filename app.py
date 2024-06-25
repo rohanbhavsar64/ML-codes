@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+import plotly.graph_objects as go
 import numpy as np
 import plotly.express as px
 import streamlit as st
@@ -35,14 +36,16 @@ if h=='Analysis':
         q=['Area','Line','Bar']
         g=st.radio('Chart- Type',q,horizontal=True)
     if g=='Area':
-        if df['Close'][-1]<df['Close'][0]:
-            fig=px.area(df,x=df.index,y='Close',color_discrete_sequence=["#9E4033"],title='Closing Price  vs Date')
-            fig.update_yaxes(showgrid=False)
-            st.write(fig)
-        else:
-            fig = px.area(df, x=df.index,y='Close', color_discrete_sequence=["#4A7230"],title='Closing Price vs Date')
-            fig.update_yaxes(showgrid=False)
-            st.write(fig)
+        fig = go.Figure(data=[go.Candlestick(x=df.index,
+                                     open=df['Open'],
+                                     high=df['High'],
+                                     low=df['Low'],
+                                     close=df['Close'])])
+        fig.update_layout(title='Candlestick Chart - Closing Price vs Date',
+                  yaxis_title='Price',
+                  xaxis_title='Date',
+                  xaxis_rangeslider_visible=False)
+
     elif g=='Line':
         if df['Close'][-1] < df['Close'][0]:
             fig = px.line(df, x=df.index, y='Close', color_discrete_sequence=["#9E4033"],title='Close vs Date')
