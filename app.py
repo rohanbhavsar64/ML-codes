@@ -46,9 +46,9 @@ if h=='Analysis':
                   xaxis_title='Date',
                   xaxis_rangeslider_visible=False)
         st.write(fig)
-    elif g=='Line':
+    elif g=='Area':
         if df['Close'][-1] < df['Close'][0]:
-            fig = px.aine(df, x=df.index, y='Close', color_discrete_sequence=["#9E4033"],title='Close vs Date')
+            fig = px.area(df, x=df.index, y='Close', color_discrete_sequence=["#9E4033"],title='Close vs Date')
             fig.update_yaxes(showgrid=False)
             st.write(fig)
         else:
