@@ -180,8 +180,8 @@ else:
     y4=MMM.recommendations.iloc[k,:][3]
     y5=MMM.recommendations.iloc[k,:][4]
     y6=MMM.recommendations.iloc[k,:][5]
-    data1=[x1,x2,x3,x4,x5]
-    data2=[y1,y2,y3,y4,y5]
+    data1=[x2,x3,x4,x5,x6]
+    data2=[y2,y3,y4,y5,y6]
     #df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
     import plotly.graph_objects as go
     fig = go.Figure(data=[go.Pie(labels=data1, values=data2, hole=.3)])
