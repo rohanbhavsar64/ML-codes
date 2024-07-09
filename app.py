@@ -98,9 +98,9 @@ elif h=='Financial':
         st.table(df7)
     else:
         df2=MMM.quarterly_financials.iloc[44:,:]
-        #s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
-       # m=st.selectbox('Fanancial',s)
-        m=['Gross Profit','Total Revenue']
+        s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
+        m=st.selectbox('Fanancial',s)
+        #m=['Gross Profit','Total Revenue']
         h=0
         if(m=='Gross Profit'):
             h=42
