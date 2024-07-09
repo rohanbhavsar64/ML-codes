@@ -184,7 +184,7 @@ else:
     data2=[y2,y3,y4,y5,y6]
     #df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
     import plotly.graph_objects as go
-    fig = go.Figure(data=[go.Pie(labels=data1, values=data2, hole=.3)])
+    fig = go.Figure(data=[go.Pie(labels=data1, values=data2, hole=.6)])
     st.write(fig)
     
     
