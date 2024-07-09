@@ -181,7 +181,7 @@ else:
     y6=MMM.recommendations.iloc[k,:][5]
     data5=[[x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
     df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
-    st.write(px.pie(df3,values='Vote',name='Suggestions'))
+    st.write(px.pie(df3,values='Vote',names='Suggestions'))
     
     
     
