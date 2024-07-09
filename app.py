@@ -183,7 +183,7 @@ else:
     data5=[[x2,y2],[x3,y3],[x4,y4],[x5,y5],[x6,y6]]
     df3=pd.DataFrame(data5,columns=['Suggestions','Vote'])
     import plotly.graph_objects as go
-    fig = go.Figure(data=[go.Pie(labels='Suggestions', values='Vote', hole=.3)])
+    fig = px.pie(df3,values='Vote',names='Suggestions')
     st.write(fig)
     
     
