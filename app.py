@@ -48,11 +48,9 @@ if h=='Analysis':
         st.write(fig)
     elif g=='Area':
         if df['Close'][-1] < df['Close'][0]:
-            fig = px.area(df, x=df.index, y='Close', color="#9E4033",title='Close vs Date')
-            fig.update_yaxes(showgrid=False)
-            st.write(fig)
+            fig = px.area_chart(df, x=df.index, y='Close', color="#9E4033",title='Close vs Date')
         else:
-            fig = st.area(df, x=df.index, y='Close', color="#4A7230",title='Close vs Date')
+            fig = st.area_chart(df, x=df.index, y='Close', color="#4A7230",title='Close vs Date')
 
     elif g=='Line':
         if df['Close'][-1] < df['Close'][0]:
