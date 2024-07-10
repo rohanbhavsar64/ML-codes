@@ -154,7 +154,7 @@ elif h=='PREDICATION':
     l = ['5d','1mo','3mo','1y','5y','max']
     i = st.radio('Period', l,horizontal=True)
     df = yf.download(ticker, period=i)
-     def LSTM_ALGO(df):
+    def LSTM_ALGO(df):
         #Split data into training set and test set
         dataset_train=df.iloc[0:int(0.8*len(df)),:]
         dataset_test=df.iloc[int(0.8*len(df)):,:]
