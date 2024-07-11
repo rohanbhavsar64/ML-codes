@@ -179,11 +179,10 @@ elif h=='PREDICATION':
         X_to_be_forecasted = np.array(df_new.iloc[-forecast_out:, 0:-1])
 
     # Training, testing to plot graphs, check accuracy
-        X_train = X[0:int(0.8 * len(df)), :]
-        X_test = X[int(0.8 * len(df)):, :]
-        y_train = y[0:int(0.8 * len(df)), :]
-        y_test = y[int(0.8 * len(df)):, :]
-
+        X_train = X[0:int(0.8 * len(df))]
+        X_test = X[int(0.8 * len(df)):]
+        y_train = y[0:int(0.8 * len(df))]
+        y_test = y[int(0.8 * len(df)):]
         # Feature Scaling===Normalization
         sc = StandardScaler()
         X_train = sc.fit_transform(X_train.reshape(-1, 1))
