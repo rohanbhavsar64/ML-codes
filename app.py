@@ -204,7 +204,7 @@ elif h=='PREDICATION':
         plt.savefig('static/LR.png')
         plt.close(fig)
 
-    error_lr = math.sqrt(mean_squared_error(y_test, y_test_pred))
+        error_lr = math.sqrt(mean_squared_error(y_test, y_test_pred))
 
     # Forecasting
         forecast_set = clf.predict(X_to_be_forecasted)
