@@ -7,4 +7,3 @@ requests
 bs4
 plotly
 yfinance
-timezone
