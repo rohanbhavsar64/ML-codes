@@ -203,7 +203,7 @@ elif h=='PREDICATION':
         std_avg_x.append(date)
 
     print('MSE error for standard averaging: %.5f'%(0.5*np.mean(mse_errors)))
-    MSE error for standard averaging: 0.00418
+    #MSE error for standard averaging: 0.00418
     plt.figure(figsize = (18,9))
     plt.plot(range(df.shape[0]),all_mid_data,color='b',label='True')
     plt.plot(range(window_size,N),std_avg_predictions,color='orange',label='Prediction')
