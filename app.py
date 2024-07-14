@@ -92,6 +92,90 @@ elif h=='Financial':
     elif q=='Income Statements':
         df7=MMM.income_stmt.iloc[:15,:4]
         st.table(df7)
+    python
+elif h == 'PREDICATION':
+    import yfinance as yf
+    import matplotlib.pyplot as plt
+    import streamlit as st
+    import time
+    import numpy as np
+    import datetime
+    import timezone
+    from bytewax.dataflow import Dataflow
+    from bytewax.inputs import ManualInputConfig, distribute
+    from websocket import create_connection
+
+    # Create a Streamlit app
+    st.title("Real-Time Stock Price Chart")
+
+    # Get the Apple stock data
+    apple_stock = yf.Ticker("AAPL")
+
+    # Create a Matplotlib figure
+    fig, ax = plt.subplots()
+
+    # Use Streamlit's pyplot function to display the plot
+    plot = st.pyplot(fig)
+
+    # Define the accumulator function
+    def build_array():
+        return np.empty((0,3))
+
+    # Define the accumulator function
+    def acc_values(np_array, ticker):
+        return np.insert(np_array, 0, np.array((ticker.time, ticker.price, ticker.dayVolume)), 0)
+
+    # Define the function to get the event time
+    def get_event_time(ticker):
+        return datetime.utcfromtimestamp(ticker.time/1000).replace(tzinfo=timezone.utc)
+
+    # Configure the `fold_window` operator to use the event time
+    cc = EventClockConfig(get_event_time, wait_for_system_duration=timedelta(seconds=10))
+
+    # And a 1 minute tumbling window, that starts at the beginning of the minute
+    start_at = datetime.now(timezone.utc)
+    start_at = start_at - timedelta(seconds=start_at.second, microseconds=start_at.microsecond)
+    wc = TumblingWindowConfig(start_at=start_at, length=timedelta(seconds=60))
+
+    # Define the input source
+    ticker_list = ['AMZN', 'MSFT']
+    def yf_input(worker_tickers, state):
+        ws = create_connection("wss://streamer.finance.yahoo.com/")
+        ws.send(json.dumps({"subscribe": worker_tickers}))
+        while True:
+            message = ws.recv()
+            yield (json.loads(message)['ticker'], json.loads(message))
+
+    # Create a Bytewax dataflow
+    flow = Dataflow()
+    flow.input("input", ManualInputConfig(yf_input, ticker_list, distribute(ticker_list, 1)))
+
+    # Infinite loop to fetch and update stock values
+    while True:
+        # Get the historical prices for Apple stock
+        historical_prices = apple_stock.history(period='1d', interval='1m')
+
+        # Get the latest price and time
+        latest_price = historical_prices['Close'].iloc[-1]
+        latest_time = historical_prices.index[-1].strftime('%H:%M:%S')
+
+        # Clear the plot and plot the new data
+        ax.clear()
+        ax.plot(historical_prices.index, historical_prices['Close'], label='Stock Value')
+        ax.set_xlabel('Time')
+        ax.set_ylabel('Stock Value')
+        ax.set_title('Apple Stock Value')
+        ax.legend(loc='upper left')
+        ax.tick_params(axis='x', rotation=45)
+
+        # Update the plot in the Streamlit app
+        plot.pyplot(fig)
+
+        # Show the latest stock value in the app
+        st.write(f"Latest Price ({latest_time}): {latest_price}")
+
+        # Sleep for 1 minute before fetching new data
+        time.sleep(60)
     else:
         df2=MMM.quarterly_financials.iloc[44:,:]
         s=['Gross Profit','Cost Of Revenue','Total Revenue','Operating Revenue']
