@@ -150,36 +150,63 @@ elif h=='Historical Data':
     i = st.radio('Period', l,horizontal=True)
     df = yf.download(ticker, period=i)
     st.write(df)
-elif h=='PREDICATION':
+elif h == 'PREDICATION':
+    import pandas as pd
+    import numpy as np
+    from sklearn.preprocessing import MinMaxScaler
+    from keras.models import Sequential
+    from keras.layers import Dense, LSTM
+    import plotly.express as px
+    import plotly.graph_objects as go
+
+    # Load the model
+    model = Sequential()
+    model.add(LSTM(units=50, return_sequences=True, input_shape=(60, 1)))
+    model.add(LSTM(units=50, return_sequences=False))
+    model.add(Dense(units=1))
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    model.load_weights('stock_price_model.h5')
+
+    # Load the scaler
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    scaler.load('scaler.pkl')
+
+    # Extract the actual stock prices of Jan-2017
     l = ['5d','1mo','3mo','1y','5y','max']
     i = st.radio('Period', l,horizontal=True)
     df = yf.download(ticker, period=i)
-    # First calculate the mid prices from the highest and lowest
-    high_prices = df.loc[:,'High']
-    low_prices = df.loc[:,'Low']
-    mid_prices = (high_prices+low_prices)/2.0
-    train_data = mid_prices[:11000]
-    test_data = mid_prices[11000:] 
-    for pred_idx in range(window_size,N):
-        if pred_idx >= N:
-            date = dt.datetime.strptime(k, '%Y-%m-%d').date() + dt.timedelta(days=1)
+    test_data = df
+    test_open_price = test_data['Open'].values.reshape(-1, 1)
+    test_open_price_scaled = scaler.transform(test_open_price)
+
+    # Prepare the input for the model
+    X_test = []
+    for i in range(60, len(test_open_price_scaled)):
+        X_test.append(test_open_price_scaled[i-60:i])
+    X_test = np.array(X_test)
+    X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
+
+    # Predict the values for Jan 2017 stock prices
+    predictions = model.predict(X_test)
+
+    # Make buy/sell decisions based on predictions
+    for i in range(len(predictions)):
+        if predictions[i] > test_open_price_scaled[i]:
+            print(f"Day {i+1}: Predicted price ({predictions[i]}) is higher than actual price ({test_open_price_scaled[i]}). **BUY**")
+            # Create a Plotly chart
+            chart_df = pd.DataFrame({'Date': test_data['Date'][60:], 'Actual': test_open_price[60:], 'Forecast': predictions})
+            fig = px.line(chart_df, x='Date', y=['Actual', 'Forecast'], title='Stock Price Prediction')
+            fig.update_layout(yaxis_title='Price', xaxis_title='Date')
+            fig.show()
+        elif predictions[i] < test_open_price_scaled[i]:
+            print(f"Day {i+1}: Predicted price ({predictions[i]}) is lower than actual price ({test_open_price_scaled[i]}). **SELL**")
+            # Create a Plotly chart
+            chart_df = pd.DataFrame({'Date': test_data['Date'][60:], 'Actual': test_open_price[60:], 'Forecast': predictions})
+            fig = px.line(chart_df, x='Date', y=['Actual', 'Forecast'], title='Stock Price Prediction')
+            fig.update_layout(yaxis_title='Price', xaxis_title='Date')
+            st.write(fig)
         else:
-            date = df.loc[pred_idx,'Date']
-
-        std_avg_predictions.append(np.mean(train_data[pred_idx-window_size:pred_idx]))
-        mse_errors.append((std_avg_predictions[-1]-train_data[pred_idx])**2)
-        std_avg_x.append(date)
-
-    print('MSE error for standard averaging: %.5f'%(0.5*np.mean(mse_errors)))
-    #MSE error for standard averaging: 0.00418
-    plt.figure(figsize = (18,9))
-    plt.plot(range(df.shape[0]),all_mid_data,color='b',label='True')
-    plt.plot(range(window_size,N),std_avg_predictions,color='orange',label='Prediction')
-#plt.xticks(range(0,df.shape[0],50),df['Date'].loc[::50],rotation=45)
-    plt.xlabel('Date')
-    plt.ylabel('Mid Price')
-    plt.legend(fontsize=18)
-    st.write(plt.show())
+            print(f"Day {i+1}: Predicted price ({predictions[i]}) is equal to actual price ({test_open_price_scaled[i]}). **HOLD**")
 
 
 
