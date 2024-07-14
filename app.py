@@ -154,72 +154,71 @@ elif h=='PREDICATION':
     l = ['5d','1mo','3mo','1y','5y','max']
     i = st.radio('Period', l,horizontal=True)
     df = yf.download(ticker, period=i)
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from sklearn.linear_model import LinearRegression
-    from sklearn.preprocessing import StandardScaler
-    import math
-    from sklearn.metrics import mean_squared_error
+    # First calculate the mid prices from the highest and lowest
+    high_prices = df.loc[:,'High'].as_matrix()
+    low_prices = df.loc[:,'Low'].as_matrix()
+    mid_prices = (high_prices+low_prices)/2.0
+    train_data = mid_prices[:11000]
+    test_data = mid_prices[11000:] 
+    scaler = MinMaxScaler()
+    train_data = train_data.reshape(-1,1)
+    test_data = test_data.reshape(-1,1)
+    # Train the Scaler with training data and smooth data
+    smoothing_window_size = 2500
+    for di in range(0,10000,smoothing_window_size):
+        scaler.fit(train_data[di:di+smoothing_window_size,:])
+        train_data[di:di+smoothing_window_size,:] = scaler.transform(train_data[di:di+smoothing_window_size,:])
+# You normalize the last bit of remaining data
+    scaler.fit(train_data[di+smoothing_window_size:,:])
+    train_data[di+smoothing_window_size:,:] = scaler.transform(train_data[di+smoothing_window_size:,:])
+    # Reshape both train and test data
+    train_data = train_data.reshape(-1)
 
-    def LIN_REG_ALGO(df, quote):\
-        # No of days to be forecasted in future
-        forecast_out = int(7)
-    # Price after n days
-        df['Close after n days'] = df['Close'].shift(-forecast_out)
-    # New df with only relevant data
-        df_new = df[['Close', 'Close after n days']]
+# Normalize test data
+    test_data = scaler.transform(test_data).reshape(-1)
+    # Now perform exponential moving average smoothing
+# So the data will have a smoother curve than the original ragged data
+    EMA = 0.0
+    gamma = 0.1
+    for ti in range(11000):
+        EMA = gamma*train_data[ti] + (1-gamma)*EMA
+        train_data[ti] = EMA
 
-    # Structure data for train, test & forecast
-    # Labels of known data, discard last 35 rows
-        y = np.array(df_new.iloc[:-forecast_out, -1])
-        y = np.reshape(y, (-1, 1))
-        # All cols of known data except labels, discard last 35 rows
-        X = np.array(df_new.iloc[:-forecast_out, 0:-1])
-    # Unknown, X to be forecasted
-        X_to_be_forecasted = np.array(df_new.iloc[-forecast_out:, 0:-1])
+# Used for visualization and test purposes
+    all_mid_data = np.concatenate([train_data,test_data],axis=0)
+    window_size = 100
+    N = train_data.size
+    std_avg_predictions = []
+    std_avg_x = []
+    mse_errors = []
 
-    # Training, testing to plot graphs, check accuracy
-        X_train = X[0:int(0.8 * len(df))]
-        X_test = X[int(0.8 * len(df)):]
-        y_train = y[0:int(0.8 * len(df))]
-        y_test = y[int(0.8 * len(df)):]
-        # Feature Scaling===Normalization
-        sc = StandardScaler()
-        X_train = sc.fit_transform(X_train.reshape(-1, 1))
-        X_test = sc.transform(X_test.reshape(-1, 1))
-        X_to_be_forecasted = sc.transform(X_to_be_forecasted.reshape(-1, 1))
+    for pred_idx in range(window_size,N):
+        if pred_idx >= N:
+            date = dt.datetime.strptime(k, '%Y-%m-%d').date() + dt.timedelta(days=1)
+        else:
+            date = df.loc[pred_idx,'Date']
 
-    # Training
-        clf = LinearRegression(n_jobs=-1)
-        clf.fit(X_train, y_train)
+        std_avg_predictions.append(np.mean(train_data[pred_idx-window_size:pred_idx]))
+        mse_errors.append((std_avg_predictions[-1]-train_data[pred_idx])**2)
+        std_avg_x.append(date)
 
-    # Testing
-        y_test_pred = clf.predict(X_test)
-        y_test_pred = y_test_pred * (1.04)
-        fig = plt.figure(figsize=(7.2, 4.8), dpi=65)
-        plt.plot(y_test, label='Actual Price')
-        plt.plot(y_test_pred, label='Predicted Price')
-        plt.legend(loc=4)
-        plt.savefig('static/LR.png')
-        plt.close(fig)
+    print('MSE error for standard averaging: %.5f'%(0.5*np.mean(mse_errors)))
+    MSE error for standard averaging: 0.00418
+    plt.figure(figsize = (18,9))
+    plt.plot(range(df.shape[0]),all_mid_data,color='b',label='True')
+    plt.plot(range(window_size,N),std_avg_predictions,color='orange',label='Prediction')
+#plt.xticks(range(0,df.shape[0],50),df['Date'].loc[::50],rotation=45)
+    plt.xlabel('Date')
+    plt.ylabel('Mid Price')
+    plt.legend(fontsize=18)
+    st.write(plt.show())
 
-        error_lr = math.sqrt(mean_squared_error(y_test, y_test_pred))
 
-    # Forecasting
-        forecast_set = clf.predict(X_to_be_forecasted)
-        forecast_set = forecast_set * (1.04)
-        mean = forecast_set.mean()
-        lr_pred = forecast_set[0, 0]
-        print()
-        print("##############################################################################")
-        print("Tomorrow's ", quote, " Closing Price Prediction by Linear Regression: ", lr_pred)
-        print("Linear Regression RMSE:", error_lr)
-        print("##############################################################################")
-        return df, lr_pred, forecast_set, mean, error_lr
 
-# Example usage:
-    df, lr_pred, forecast_set, mean, error_lr = LIN_REG_ALGO(df, 'quote')
-    
+
+
+
+
 else:
     st.subheader('Recommendations')
     MMM=yf.Ticker(ticker)
