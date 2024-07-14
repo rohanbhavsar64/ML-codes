@@ -150,9 +150,6 @@ elif h=='Historical Data':
     i = st.radio('Period', l,horizontal=True)
     df = yf.download(ticker, period=i)
     st.write(df)
-elif h == 'PREDICATION':
-
-
 else:
     st.subheader('Recommendations')
     MMM=yf.Ticker(ticker)
