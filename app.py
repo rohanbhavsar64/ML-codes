@@ -155,8 +155,8 @@ elif h=='PREDICATION':
     i = st.radio('Period', l,horizontal=True)
     df = yf.download(ticker, period=i)
     # First calculate the mid prices from the highest and lowest
-    high_prices = df.loc[:,'High'].as_matrix()
-    low_prices = df.loc[:,'Low'].as_matrix()
+    high_prices = df.loc[:,'High']
+    low_prices = df.loc[:,'Low']
     mid_prices = (high_prices+low_prices)/2.0
     train_data = mid_prices[:11000]
     test_data = mid_prices[11000:] 
