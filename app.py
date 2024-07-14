@@ -20,10 +20,10 @@ if web.find(class_='usph14HeadingWrapper valign-wrapper vspace-between') is None
     st.write('Element not found')
 else:
     st.write(web.find(class_='usph14HeadingWrapper valign-wrapper vspace-between').text.strip())
+    c=str('$'+web.find(class_='uht141Pri contentPrimary displayBase').text)
+    st.subheader('Current Price : '+str(c))
 
 #<div class="D(ib) Mt(-5px) Maw(38%)--tab768 Maw(38%) Mend(10px) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)"><div class="D(ib) "><h1 class="D(ib) Fz(18px)">Infosys Limited (INFY)</h1></div><div class="C($tertiaryColor) Fz(12px)"><span>NYSE - Nasdaq Real Time Price. Currency in USD</span></div></div>
-c=str('$'+web.find(class_='uht141Pri contentPrimary displayBase').text)
-st.subheader('Current Price : '+str(c))
 import yfinance as yf
 # Get the data for the stock AAPL
 j=['Analysis','Profile','Financial','Historical Data','Recommendations']
