@@ -16,10 +16,10 @@ df=pd.DataFrame()
 headers={'User-Agent':'Mo BeautifulSoupzilla/5.0 (Windows NT 6.3; Win 64 ; x64) Apple WeKit /537.36(KHTML , like Gecko) Chrome/80.0.3987.162 Safari/537.36'}
 r=requests.get(url,headers=headers)
 web=BeautifulSoup(r.text,'html')
-if web.find(class_='usph14HeadingWrapper valign-wrapper vspace-between')==None:
-    st.write(' ')
+if web.find(class_='usph14HeadingWrapper valign-wrapper vspace-between') is None:
+    st.write('Element not found')
 else:
-    st.write(web.find(class_='usph14HeadingWrapper valign-wrapper vspace-between').text)
+    st.write(web.find(class_='usph14HeadingWrapper valign-wrapper vspace-between').text.strip())
 
 #<div class="D(ib) Mt(-5px) Maw(38%)--tab768 Maw(38%) Mend(10px) Ov(h) smartphone_Maw(85%) smartphone_Mend(0px)"><div class="D(ib) "><h1 class="D(ib) Fz(18px)">Infosys Limited (INFY)</h1></div><div class="C($tertiaryColor) Fz(12px)"><span>NYSE - Nasdaq Real Time Price. Currency in USD</span></div></div>
 c=str('$'+web.find(class_='uht141Pri contentPrimary displayBase').text)
