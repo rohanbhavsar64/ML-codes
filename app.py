@@ -34,10 +34,13 @@ if h=='Analysis':
     with col1:
         l = ['1y','5y','max','3mo','1mo','5d']
         i = st.selectbox('Period', l)
-        if ticker is None:
-            st.write('PLEASE WRITE NAME OF CORRECT TICKER')
-        else:
-            df = yf.download(ticker, period=i)
+       if ticker is None:
+           st.write('PLEASE WRITE NAME OF CORRECT TICKER')
+           else:
+               try:
+                   df = yf.download(ticker, period=i)
+               except Exception as e:
+                   st.write(f"Error: {e}. PLEASE WRITE NAME OF CORRECT TICKER")
     with col2:
         q=['Candlestick','Area','Line','Bar']
         g=st.radio('Chart- Type',q,horizontal=True)
