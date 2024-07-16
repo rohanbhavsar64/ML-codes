@@ -6,7 +6,7 @@ import numpy as np
 import plotly.express as px
 import streamlit as st
 st.title("Stock Analysis")
-fd=pd.read_csvconstituents.csv')
+fd=pd.read_csv('constituents.csv')
 f=fd['Symbol'].unique()
 #Mt(15px) Lh(1.6)
 ticker=st.selectbox("Company",f)
