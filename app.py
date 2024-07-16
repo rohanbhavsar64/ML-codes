@@ -42,7 +42,7 @@ if h=='Analysis':
             except Exception as e:
                 st.write(f"Error: {e}. PLEASE WRITE NAME OF CORRECT TICKER")
     with col2:
-        q=['Candlestick','Area','Line','Bar']
+        q=['Candlestick','Line','Bar']
         g=st.radio('Chart- Type',q,horizontal=True)
     if g=='Candlestick':
         fig = go.Figure(data=[go.Candlestick(x=df.index,
