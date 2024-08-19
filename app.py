@@ -9,7 +9,7 @@ st.title("Stock Analysis")
 fd=pd.read_csv('constituents.csv')
 f=fd['Symbol'].unique()
 #Mt(15px) Lh(1.6)
-ticker=st.text_input("Company")
+ticker=(st.text_input("Company")) or ('MMM')
 url=f"https://groww.in/us-stocks/{ticker}"
 df=pd.DataFrame()
 #<fin-streamer class="Fw(500) Pstart(8px) Fz(24px)" data-symbol="INFY" data-test="qsp-price-change" data-field="regularMarketChange" data-trend="txt" data-pricehint="2" value="-0.6700001" active=""><span class="e3b14781 ee3e99dd dde7f18a"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-0.64</font></font></span></fin-streamer>
