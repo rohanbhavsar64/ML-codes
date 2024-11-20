@@ -149,12 +149,8 @@ elif h=='Financial':
         df=pd.DataFrame(data,columns=['Year',m])
         st.write(px.bar(df,x='Year',y=m,color_discrete_sequence=['orange']))
 elif h == 'Historical Data':
-    import pandas as pd
     import datetime as dt
     from datetime import date
-    import matplotlib.pyplot as plt
-    import yfinance as yf
-    import numpy as np
     import tensorflow as tf
     START = "2015-01-01"
     TODAY = date.today().strftime("%Y-%m-%d")
