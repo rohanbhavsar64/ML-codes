@@ -7,8 +7,5 @@ requests
 bs4
 plotly
 yfinance
-tensorflow
-tensorflow_hub
-Pillow
-datetime
-Pillow
+# Required libraries for the project
+tensorflow==2.11.0
