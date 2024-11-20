@@ -7,7 +7,8 @@ requests
 bs4
 plotly
 yfinance
-keras
 tensorflow
+tensorflow_hub
+Pillow
 datetime
 Pillow
