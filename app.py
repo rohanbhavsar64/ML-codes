@@ -55,24 +55,37 @@ if h=='Analysis':
                   xaxis_title='Date',
                   xaxis_rangeslider_visible=False)
         st.write(fig)
-    elif g=='Line':
-        if df['Close'][-1] < df['Close'][0]:
-            fig = px.line(df, x=df.index, y='Close', color_discrete_sequence=["#9E4033"],title='Close vs Date')
-            fig.update_yaxes(showgrid=False)
-            st.write(fig)
+   import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# Assuming df is already defined and populated somewhere in your code
+
+# Check if the DataFrame is empty
+if df.empty:
+    st.write("DataFrame is empty.")
+else:
+    # Check if 'Close' column exists
+    if 'Close' in df.columns:
+        # Determine the color and title based on the closing price comparison
+        if df['Close'].iloc[-1] < df['Close'].iloc[0]:  # Use iloc for safe indexing
+            color = "#9E4033"
+            title = 'Closing Price vs Date'
         else:
-            fig = px.line(df, x=df.index, y='Close', color_discrete_sequence=["#4A7230"],title='Closing Price  vs Date')
-            fig.update_yaxes(showgrid=False)
-            st.write(fig)
+            color = "#4A7230"
+            title = 'Closing Price vs Date'
+
+        # Check the value of g to determine the type of plot
+        if g == 'Line':
+            fig = px.line(df, x=df.index, y='Close', color_discrete_sequence=[color], title=title)
+        else:
+            fig = px.bar(df, x=df.index, y='Close', color_discrete_sequence=[color], title=title)
+
+        # Update the y-axis and display the figure
+        fig.update_yaxes(showgrid=False)
+        st.write(fig)
     else:
-        if df['Close'][-1] < df['Close'][0]:
-            fig = px.bar(df, x=df.index, y='Close', color_discrete_sequence=["#9E4033"],title='Closing Price vs Date')
-            fig.update_yaxes(showgrid=False)
-            st.write(fig)
-        else:
-            fig = px.bar(df, x=df.index, y='Close', color_discrete_sequence=["#4A7230"],title='Closing Price  vs Date')
-            fig.update_yaxes(showgrid=False)
-            st.write(fig)
+        st.write("The 'Close' column is missing from the DataFrame.")
 
 elif h=='Profile':
     url1 = f'https://groww.in/us-stocks/{ticker}'
