@@ -26,7 +26,7 @@ preprocessor = ColumnTransformer([
 log_reg = LogisticRegression()
 
 # Create pipeline
-pipeline = Pipeline([
+pipe = Pipeline([
     ('preprocessor', preprocessor),
     ('classifier', log_reg)
 ])
@@ -44,7 +44,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 # Predict win probabilities for test dataain)
 pipe.fit(X_train,y_train)
 # Predict probabilities for test data
-win_probabilities = pipeline.predict_proba(X_test)
+win_probabilities = pipe.predict_proba(X_test)
 
 # Assuming class 1 is 'win', extract probabilities for win for both teams
 win_probabilities_batting = win_probabilities[:, 1]
