@@ -12,7 +12,7 @@ df = pd.read_csv('IPL.csv')
 
 # Assuming relevant columns are: 'match_id', 'over', 'runs_left', 'wickets_left', 'total_runs_x', 'ball_left'
 # Filter relevant columns
-df = df[['match_id','batting_team','bowling_team','city','over', 'runs_left', 'wickets_left', 'total_runs_x', 'ball_left','last_three_overs_runs']]
+df = df[['match_id','batting_team','bowling_team','city','over', 'runs_left', 'wickets_left', 'total_runs_x', 'ball_left','last_five','result']]
 
 # Drop rows with missing values if any
 df.dropna(inplace=True)
