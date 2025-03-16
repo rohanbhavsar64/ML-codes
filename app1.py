@@ -19,7 +19,7 @@ df.dropna(inplace=True)
 # Define preprocessing steps using ColumnTransformer
 preprocessor = ColumnTransformer([
     ('ohe', OneHotEncoder(handle_unknown='ignore'), ['batting_team','bowling_team','city']),  # Example with OneHotEncoder for match_id
-    ('scaler', StandardScaler(), ['match_id','over', 'runs_left', 'wickets_left', 'total_runs_x', 'ball_left','last_three_overs_runs'])
+    ('scaler', StandardScaler(), ['match_id','over', 'runs_left', 'wickets_left', 'total_runs_x', 'ball_left','last_five'])
 ])
 
 # Define Logistic Regression model
